@@ -1,6 +1,7 @@
 //Dependencies
 const mysql = require("mysql");
 const express = require("express");
+const inquirer = require("inquirer");
 
 //create express app instance.
 let app = express();
@@ -38,3 +39,32 @@ connection.connect(function(err) {
   app.get("/", function(req, res) {
 
   });
+
+  //command line allows user to
+  
+  //add departments, roles, employees
+  function choosePosition() {};
+  
+  //view departments
+  function viewDepartments() {};
+
+  //view roles
+  function viewRoles () {};
+
+  // view employees
+  function viewEmployees() {};
+
+  //update employee roles
+  function updateEmployeeRoles() {};
+
+
+
+
+
+
+//=============BONUS==============
+// update employee managers
+// delete departments, roles, employees,
+
+
+  
