@@ -130,7 +130,7 @@ function createEmployee() {
                 message: "What is this employees Role?"
             }
         ]).then(async function (eResponse) {
-            connection.query("INSERT INTO employees SET ?",
+            connection.query(`INSERT INTO employees SET ?`,
             {
                 first_name: eResponse.employeeFirst,
                 last_name: eResponse.employeeLast,
@@ -231,15 +231,15 @@ function viewInfo() {
             }]
         ).then(function (response) {
             // If you choose Employee the addEmployee function will begin
-            if (response.viewInfo === "Employee") {
+            if (response.view === "Employee") {
                 viewEmployees()
             }
             // If you choose Role the addRole function will begin
-            else if (response.viewInfo === "Role") {
+            else if (response.view === "Role") {
                 viewRole()
             }
             // If you choose Department addDepartment will begin
-            else if (response.viewInfo === "Department") {
+            else if (response.view === "Department") {
                 viewDepartment()
             }
             // If you choose Back the action() will take you back to the main menu
@@ -257,7 +257,7 @@ function viewEmployees() {
         console.table(res);
     
     });
-    action();
+    // action();
 };
 //======= Role =======
 function viewRole() {
@@ -305,6 +305,8 @@ function updateEmployee() {
 
 //====Role====
 function updateRole() {
+    // SELECT * FROM employees 
+
     // get list of role
     // choose role
     // update
