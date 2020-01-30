@@ -43,12 +43,15 @@
 
 //====== Employee =====
     // pull data from table
+    //SELECT * FROM 
 
 //======= Role =======
     // pull data from table
+    //SELECT * FROM 
 
 //====== Department =====
     // pull data from table
+    //SELECT * FROM 
 
 
 //=================== update =================

@@ -1,5 +1,24 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
+const cTable = require("console.table");
+
+const connection = mysql.createConnection({
+  host: "localhost",
+
+  // Your port; if not 3306
+  port: 3306,
+
+  // Your username
+  user: "root",
+
+  // Your password
+  password: "P@ssword!",
+  database: "employee_db"
+});
+
+connection.connect(function(err) {
+  if (err) throw err;
+});
 
 //=================================================================
 //============== Main Question ===============
@@ -41,13 +60,13 @@ function action() {
             }
         })
 }
-action();
+action()
 //CHECK
 //=================================================================
 //================== Add =====================
 
-// Please chose which you want to add too
-async function create() {
+// Please choose which you want to add too
+function create() {
     inquirer
         .prompt([
             {
@@ -110,10 +129,21 @@ function createEmployee() {
                 name: "employeeRole_id",
                 message: "What is this employees Role?"
             }
-        ]).then(function (response){
-            createEmployeeData(response)
-        })
-}
+        ]).then(async function (eResponse) {
+            connection.query("INSERT INTO employees SET ?",
+            {
+                first_name: eResponse.employeeFirst,
+                last_name: eResponse.employeeLast,
+                manager_id: eResponse.employeeManager_id,
+                role_id: eResponse.employeeRole_id
+            }, function(err) {
+                if (err) throw (err);
+            });
+            await action();
+        }
+        )
+    }
+
 
 //CHECK
 //save into table
@@ -146,8 +176,16 @@ function createRole() {
                 name: "roleDepartment",
                 message: "What is this employee's department Id?"
             }
-        ]).then(function (response) {
-            //save into table
+        ]).then(async function (rResponse) {
+            connection.query("INSERT INTO role SET ?",
+            {
+                title: rResponse.roleTitle,
+                salary: rResponse.roleSalary,
+                department_id: rResponse.roleDepartment
+            }, function(err) {
+                if (err) throw (err);
+            });
+            await action();
         })
 }
 //CHECK
@@ -160,39 +198,22 @@ function createDepartment() {
                 type: "input",
                 name: "departmentTitle",
                 message: "What is the department title?"
-            },
-            //input title
-            {
-                type: "input",
-                name: "departmentId",
-                message: "What is the department Id number?"
             }
-        ]).then(function (response) {
-            //save into table
+        ]).then(async function (dResponse) {
+            connection.query("INSERT INTO role SET ?",
+            {
+                name: dResponse.departmentTitle
+            }, function(err) {
+                if (err) throw (err);
+            });
+            await action();
         })
 }
 
-function createEmployeeData(response) {
-    // //console.log if working
-    // console.log("Inserting a new product...\n");
-  
-    // var query = connection.query(
-    //   "INSERT INTO employee_tbl SET ?",
-    //   {
-    //     first_name: response.first_name,
-    //     last_name: response.last_name
-    //   },
-    //   function(err, res) {
-    //     if (err) throw err;
-    //     console.log(res.affectedRows + " employee created!\n");
-    //     // Call updateProduct AFTER the INSERT completes to update row
-    //   }
-    // );
-}
 
 //=================================================================
 //=================== View ===================
-// Please chose which you want to view
+// Please choose which you want to view
 
 function viewInfo() {
     inquirer
@@ -227,28 +248,25 @@ function viewInfo() {
                 action()
             }
         })
-}
-
-
+};
 
 //====== Employee =====
 function viewEmployees() {
-    //SELECT * FROM characters.employee
-    connection.query("SELECT * FROM employee_tbl", function (err, res) {
+    connection.query("SELECT * FROM employees", function (err, res) {
         if (err) throw err;
         console.table(res);
-    })
-    viewEmployees()
-// pull data from table
-}
+    
+    });
+    action();
+};
 //======= Role =======
 function viewRole() {
     connection.query("SELECT * FROM role", function (err, res) {
         if (err) throw err;
         console.table(res);
-    })
-    viewRole()
-}
+    });
+    action();
+};
 // pull data from table
 
 //====== Department =====
@@ -256,19 +274,17 @@ function viewDepartment() {
     connection.query("SELECT * FROM department", function (err, res) {
         if (err) throw err;
         console.table(res);
-    })
-    viewDepartment();
- }
-
-
+    });
+    action();
+}
 // pull data from table
 
 //=================================================================
 //=================== update =================
 
-// Please chose which you want to add too
+// Please choose where you would like to update
 
-function updateInfo() { 
+function updateInfo() {
     inquirer.prompt([
         {
             type: "list",
@@ -280,28 +296,28 @@ function updateInfo() {
 }
 
 //====Employee====
-function updateEmployee() { 
-// give list of employees (list)
-// choose what to update on selected employee
-// update
-// save to table
+function updateEmployee() {
+    // give list of employees (list)
+    // choose what to update on selected employee
+    // update
+    // save to table
 }
 
 //====Role====
-function updateRole() { 
-// get list of role
-// choose role
-// update
-// save to table
+function updateRole() {
+    // get list of role
+    // choose role
+    // update
+    // save to table
 }
 
 //====Department====
 function updateDepartment() {
     // get list of department
-        // choose name
-            // choose what to update
-                // update
-                    // save to table
-}
+    // choose name
+    // choose what to update
+    // update
+    // save to table
+};
 
 
