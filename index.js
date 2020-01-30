@@ -1,5 +1,7 @@
 const inquirer = require("inquirer");
+const mysql = require("mysql");
 
+//=================================================================
 //============== Main Question ===============
 // What would you like to do?
 function action() {
@@ -20,7 +22,7 @@ function action() {
             // add
             if (response.menu === "Add") {
                 console.log(response.menu + " selected!");
-                addTo()
+                create()
             }
             // view
             else if (response.menu === "View") {
@@ -40,11 +42,12 @@ function action() {
         })
 }
 action();
-//action prompt working at this point
-
+//CHECK
+//=================================================================
 //================== Add =====================
+
 // Please chose which you want to add too
-async function addTo() {
+async function create() {
     inquirer
         .prompt([
             {
@@ -61,15 +64,15 @@ async function addTo() {
         ).then(function (response) {
             // If you choose Employee the addEmployee function will begin
             if (response.add === "Employee") {
-                addEmployee()
+                createEmployee()
             }
             // If you choose Role the addRole function will begin
             else if (response.add === "Role") {
-                addRole()
+                createRole()
             }
             // If you choose Department addDepartment will begin
             else if (response.add === "Department") {
-                addDepartment()
+                createDepartment()
             }
             // If you choose Back the action() will take you back to the main menu
             else {
@@ -80,35 +83,35 @@ async function addTo() {
 }
 
 //====Employee====
-function addEmployee() {
+function createEmployee() {
     inquirer
         .prompt([
             //input first_name
             {
                 type: "input",
-                name: "empFirst",
+                name: "employeeFirst",
                 message: "What is this employee's first name?"
             },
             //input last_name
             {
                 type: "input",
-                name: "empLast",
+                name: "employeeLast",
                 message: "What is this employee's last name?"
             },
             //input manager_id
             {
                 type: "input",
-                name: "empManager_id",
+                name: "employeeManager_id",
                 message: "What is the manager ID number of this employee's manager?"
             },
             //input role_id
             {
                 type: "input",
-                name: "empRole_id",
+                name: "employeeRole_id",
                 message: "What is this employees Role?"
             }
-        ]).then(function (response) {
-            //save into table
+        ]).then(function (response){
+            createEmployeeData(response)
         })
 }
 
@@ -116,7 +119,7 @@ function addEmployee() {
 //save into table
 
 //====Role====
-function addRole() {
+function createRole() {
     inquirer
         .prompt([
             //input id
@@ -147,9 +150,9 @@ function addRole() {
             //save into table
         })
 }
-
+//CHECK
 //====Department===
-function addDepartment() {
+function createDepartment() {
     inquirer
         .prompt([
             //input id
@@ -169,6 +172,25 @@ function addDepartment() {
         })
 }
 
+function createEmployeeData(response) {
+    // //console.log if working
+    // console.log("Inserting a new product...\n");
+  
+    // var query = connection.query(
+    //   "INSERT INTO employee_tbl SET ?",
+    //   {
+    //     first_name: response.first_name,
+    //     last_name: response.last_name
+    //   },
+    //   function(err, res) {
+    //     if (err) throw err;
+    //     console.log(res.affectedRows + " employee created!\n");
+    //     // Call updateProduct AFTER the INSERT completes to update row
+    //   }
+    // );
+}
+
+//=================================================================
 //=================== View ===================
 // Please chose which you want to view
 
@@ -189,7 +211,7 @@ function viewInfo() {
         ).then(function (response) {
             // If you choose Employee the addEmployee function will begin
             if (response.viewInfo === "Employee") {
-                viewEmployee()
+                viewEmployees()
             }
             // If you choose Role the addRole function will begin
             else if (response.viewInfo === "Role") {
@@ -207,53 +229,79 @@ function viewInfo() {
         })
 }
 
+
+
 //====== Employee =====
-function viewEmployee() {
-    console.log("Not there yet!");
+function viewEmployees() {
+    //SELECT * FROM characters.employee
+    connection.query("SELECT * FROM employee_tbl", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+    viewEmployees()
+// pull data from table
+}
+//======= Role =======
+function viewRole() {
+    connection.query("SELECT * FROM role", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+    viewRole()
 }
 // pull data from table
 
-//======= Role =======
-function viewRole() { }
-// pull data from table
-
 //====== Department =====
-function viewDepartment() { }
+function viewDepartment() {
+    connection.query("SELECT * FROM department", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    })
+    viewDepartment();
+ }
+
+
 // pull data from table
 
-
+//=================================================================
 //=================== update =================
-function updateInfo() { }
+
 // Please chose which you want to add too
-// Employee
-// Role
-// Department
+
+function updateInfo() { 
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "update",
+            message: "Please choose one of the following to update:",
+            choices: ["Employee", "Role", "Department"]
+        }
+    ])
+}
 
 //====Employee====
-function updateEmployee() { }
+function updateEmployee() { 
 // give list of employees (list)
 // choose what to update on selected employee
 // update
 // save to table
+}
 
 //====Role====
-function updateRole() { }
+function updateRole() { 
 // get list of role
 // choose role
 // update
 // save to table
+}
 
 //====Department====
-function updateDepartment() { }
+function updateDepartment() {
     // get list of department
         // choose name
             // choose what to update
                 // update
                     // save to table
+}
 
 
-
-
-//=============BONUS==============
-// update employee managers
-// delete departments, roles, employees,
