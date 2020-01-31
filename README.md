@@ -19,3 +19,7 @@ Command-line application that allows the user to:
 * Update employee roles
 
 ## GIF
+
+(ignore this line if it is working) I have it in my code, but having a problem uploading it.. I will get it by tonight! 1-31-2020
+
+![](employeeTracker.gif)
