@@ -18,14 +18,14 @@ VALUES ("Legal");
 INSERT INTO role(title, salary)
 VALUES ("manager", 210000);
 
-INSERT INTO employees(first_name, last_name)
-VALUES ("Kimi", "Inglet");
+INSERT INTO employees(first_name, last_name, manager_id, role_id)
+VALUES ("Kimi", "Inglet", 1, 1);
 
-INSERT INTO employees(first_name, last_name)
-VALUES ("Dan", "Fenichel");
+INSERT INTO employees(first_name, last_name, manager_id, role_id)
+VALUES ("Dan", "Fenichel", 1, 1);
 
-INSERT INTO employees(first_name, last_name)
-VALUES ("Tera", "Kelly");
+INSERT INTO employees(first_name, last_name, manager_id, role_id)
+VALUES ("Tera", "Kelly", 1, 1);
 
 SELECT * FROM employees;
 

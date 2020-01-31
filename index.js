@@ -134,12 +134,12 @@ function createEmployee() {
             {
                 first_name: eResponse.employeeFirst,
                 last_name: eResponse.employeeLast,
-                manager_id: eResponse.employeeManager_id,
-                role_id: eResponse.employeeRole_id
-            }, function(err) {
+                manager_id: parseInt(eResponse.employeeManager_id),
+                role_id: parseInt(eResponse.employeeRole_id)
+            }, async function(err) {
                 if (err) throw (err);
+                await action();
             });
-            await action();
         }
         );
     }
@@ -256,9 +256,10 @@ function viewEmployees() {
     connection.query("SELECT * FROM employees", function (err, res) {
         if (err) throw err;
         console.table(res);
+        action();
     
     });
-    action();
+    // 
 };
 //======= Role =======
 function viewRole() {
