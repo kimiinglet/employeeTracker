@@ -266,8 +266,9 @@ function viewRole() {
     connection.query("SELECT * FROM role", function (err, res) {
         if (err) throw err;
         console.table(res);
+        action();
     });
-    action();
+    
 };
 // pull data from table
 
@@ -276,8 +277,9 @@ function viewDepartment() {
     connection.query("SELECT * FROM department", function (err, res) {
         if (err) throw err;
         console.table(res);
+        action();
     });
-    action();
+    
 }
 // pull data from table
 
@@ -346,6 +348,7 @@ function updateInfo() {
             {
                 id: uResponse.employeeId
             }
+        
         ],
         function(err) {
             if (err) throw (err);
