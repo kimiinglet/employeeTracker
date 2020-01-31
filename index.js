@@ -182,10 +182,11 @@ function createRole() {
                 title: rResponse.roleTitle,
                 salary: rResponse.roleSalary,
                 department_id: rResponse.roleDepartment
+
             }, function(err) {
                 if (err) throw (err);
             });
-            action();
+            await action();
         })
 }
 //CHECK
@@ -200,7 +201,7 @@ function createDepartment() {
                 message: "What is the department title?"
             }
         ]).then(async function (dResponse) {
-            connection.query("INSERT INTO ? SET ?",
+            connection.query("INSERT INTO department SET ?",
             {
                 name: dResponse.departmentTitle
             }, function(err) {
@@ -257,7 +258,7 @@ function viewEmployees() {
         console.table(res);
     
     });
-    // action();
+    action();
 };
 //======= Role =======
 function viewRole() {
@@ -321,5 +322,36 @@ function updateDepartment() {
     // update
     // save to table
 };
+
+function updateInfo() {
+    inquirer
+    .prompt([
+        {
+            name: "employeeId",
+            type: "input",
+            message: "What is the employee ID for the EMPLOYEE you would like to update?"
+        },
+        {
+            name: "employeeRole",
+            type: "input",
+            message: "What is the new role ID for this EMPLOYEE?"
+        }
+    ]).then(async function(uResponse) {
+        connection.query("UPDATE employees SET ? WHERE ?",
+        [
+            {
+                role_id: uResponse.employeeRole 
+            },
+            {
+                id: uResponse.employeeId
+            }
+        ],
+        function(err) {
+            if (err) throw (err);
+        });
+        await action();
+    });
+}
+
 
 
