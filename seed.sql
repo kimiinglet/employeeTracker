@@ -14,3 +14,4 @@ VALUES ("Dan", "Fenichel");
 
 INSERT INTO employees(first_name, last_name)
 VALUES ("Tera", "Kelly");
+

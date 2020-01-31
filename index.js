@@ -130,7 +130,7 @@ function createEmployee() {
                 message: "What is this employees Role?"
             }
         ]).then(async function (eResponse) {
-            connection.query(`INSERT INTO employees SET ?`,
+            connection.query("INSERT INTO employees SET ?",
             {
                 first_name: eResponse.employeeFirst,
                 last_name: eResponse.employeeLast,
@@ -141,7 +141,7 @@ function createEmployee() {
             });
             await action();
         }
-        )
+        );
     }
 
 
@@ -185,7 +185,7 @@ function createRole() {
             }, function(err) {
                 if (err) throw (err);
             });
-            await action();
+            action();
         })
 }
 //CHECK
@@ -200,7 +200,7 @@ function createDepartment() {
                 message: "What is the department title?"
             }
         ]).then(async function (dResponse) {
-            connection.query("INSERT INTO role SET ?",
+            connection.query("INSERT INTO ? SET ?",
             {
                 name: dResponse.departmentTitle
             }, function(err) {
