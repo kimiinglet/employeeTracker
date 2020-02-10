@@ -20,6 +20,5 @@ Command-line application that allows the user to:
 
 ## GIF
 
-(ignore this line if it is working) I have it in my code, but having a problem uploading it.. I will get it by tonight! 1-31-2020
 
-![](employeeTracker.gif)
+[Employee Tracker](https://media.giphy.com/media/hXOXhaOFtJSvCd9Pgw/giphy.gif)
